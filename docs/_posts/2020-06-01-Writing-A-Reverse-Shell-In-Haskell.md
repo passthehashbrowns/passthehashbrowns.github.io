@@ -1,7 +1,9 @@
+---
 layout: page
 title: "Writing A Reverse Shell In Haskell"
-permalink: /Writing-A-Reverse-Shell-In-Haskell
+permalink: /Writing-A-Reverse-Shell-In-Haskell/
 categories: haskell
+---
 
 While I was developing a vulnerable box for the TryHackMe teaching platform, I wrote a small Flask app that accepts a Haskell file upload and compiles/runs it. This was intended to be abused by attackers in order to get an initial foothold through running a Haskell program and then escalate to root. Like any good box maker I had to test it and make sure it was solvable. My initial solution to the foothold was a short Haskell program that uses the System.Process library in order to call system functions. Since redirection was really janky I couldn’t do a lot of things, so my workaround was to wget a Python reverse shell and then run it. This worked, but I thought “Surely someone has written a reverse shell in this language”. Much to my surprise, Google turned up empty. Original thought isn’t dead!
 
