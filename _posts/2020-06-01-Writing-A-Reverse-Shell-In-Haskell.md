@@ -21,9 +21,9 @@ Here’s a brief comparison between Haskell and Python, as many people have expe
 
 Python: 
 
-'''python
+~~~python
 x.reverse[0].append(x.reverse[-1])
-'''
+~~~
 If you’re familiar with List objects in Python, you know that what we’re doing behind the scenes is accessing the reverse, getitem (to access the index), and append methods of the List class in order to perform this operation.
 
 Haskell:
