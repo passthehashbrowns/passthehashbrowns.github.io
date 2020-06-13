@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: "Writing A Reverse Shell In Haskell"
 permalink: /Writing-A-Reverse-Shell-In-Haskell/
 categories: haskell
