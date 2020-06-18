@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "HaskHell Author's Writeup"
-permalink: /HaskHell Author's Writeup"
+permalink: /HaskHell-Authors-Writeup
 categories: haskell, tryhackme, haskhell
 ---
 
