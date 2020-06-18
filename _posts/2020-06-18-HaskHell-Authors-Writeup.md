@@ -1,3 +1,10 @@
+---
+layout: default
+title: "HaskHell Author's Writeup"
+permalink: /HaskHell Author's Writeup"
+categories: haskell, tryhackme, haskhell
+---
+
 This is a brief writeup of the HaskHell box for the TryHackMe platform. You can find the box here: tryhackme.com/rooms/haskhell
 
 This box was made as a medium-ish difficulty box with the intent of introducing users to a new programming language. I don't think that enough boxes showcase weird languages and I'm tired of cracking PHP web apps, so I wanted to do something with some truly weird functionality.
