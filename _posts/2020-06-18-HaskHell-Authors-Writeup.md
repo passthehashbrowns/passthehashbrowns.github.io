@@ -5,7 +5,7 @@ permalink: /HaskHell-Authors-Writeup
 categories: haskell, tryhackme, haskhell
 ---
 
-This is a brief writeup of the HaskHell box for the TryHackMe platform. You can find the box here: tryhackme.com/rooms/haskhell
+This is a brief writeup of the HaskHell box for the TryHackMe platform. You can find the box here: tryhackme.com/room/haskhell
 
 This box was made as a medium-ish difficulty box with the intent of introducing users to a new programming language. I think that functional languages are super cool but don't get enough exposure and I'm tired of cracking PHP web apps, so I wanted to do something with some truly weird functionality.
 
