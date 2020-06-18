@@ -11,10 +11,10 @@ This box was made as a medium-ish difficulty box with the intent of introducing 
 
 There are a few small snags along the way, but the box is pretty straightforward for the most part.
 
-##Scanning
+## Scanning
 After scanning, you'll find that port 22 and port 5001 are open. Port 5001 is running a Gunicorn web server.
 
-##The web server
+## The web server
 The index of the web server is the home page for a functional programming course, and provides a link to the first homework assignment.
 ![First page](https://passthehashbrowns.github.io/images/first_page.png)
 
@@ -57,7 +57,7 @@ Anyways, using the Python payload, we can wget it and then run it.
 Now we get our callback as the flask user.
 ![Reverse shell catch](https://passthehashbrowns.github.io/images/rev_shell_callback.png)
 
-##Escalating to prof
+## Escalating to prof
 My preferred Linux enumeration tool is LinPEAS, but whatever tool you use should catch that the prof user's SSH key is world readable.
 ![LinPEAS SSH key](https://passthehashbrowns.github.io/images/linpeas_ssh_key.png)
 
