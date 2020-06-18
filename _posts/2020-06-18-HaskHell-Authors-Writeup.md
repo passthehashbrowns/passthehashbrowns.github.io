@@ -7,7 +7,7 @@ categories: haskell, tryhackme, haskhell
 
 This is a brief writeup of the HaskHell box for the TryHackMe platform. You can find the box here: tryhackme.com/rooms/haskhell
 
-This box was made as a medium-ish difficulty box with the intent of introducing users to a new programming language. I don't think that enough boxes showcase weird languages and I'm tired of cracking PHP web apps, so I wanted to do something with some truly weird functionality.
+This box was made as a medium-ish difficulty box with the intent of introducing users to a new programming language. I think that functional languages are super cool but don't get enough exposure and I'm tired of cracking PHP web apps, so I wanted to do something with some truly weird functionality.
 
 There are a few small snags along the way, but the box is pretty straightforward for the most part.
 
