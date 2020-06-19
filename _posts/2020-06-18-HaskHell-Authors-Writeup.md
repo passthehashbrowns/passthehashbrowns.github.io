@@ -7,9 +7,11 @@ categories: haskell, tryhackme, haskhell
 
 This is a brief writeup of the HaskHell box for the TryHackMe platform. You can find the box here: tryhackme.com/room/haskhell
 
-This box was made as a medium-ish difficulty box with the intent of introducing users to a new programming language. I think that functional languages are super cool but don't get enough exposure and I'm tired of cracking PHP web apps, so I wanted to do something with some truly weird functionality.
+This box was made as a medium-ish difficulty box with the intent of introducing users to a new programming language. I think that functional languages are super cool but don't get enough exposure and I'm tired of cracking PHP web apps, so I wanted to do something with some truly weird functionality. 
 
-There are a few small snags along the way, but the box is pretty straightforward for the most part.
+If you like this sorta stuff and want to see more you can follow me on Twitter @passthehashbrwn
+
+The box has a few small snags along the way, but is pretty straightforward for the most part.
 
 ## Scanning
 After scanning, you'll find that port 22 and port 5001 are open. Port 5001 is running a Gunicorn web server.
