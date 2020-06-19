@@ -32,7 +32,7 @@ With a little more enumeration, we find that there's a Submit page. Looks like t
 Once we navigate to the Submit page, we find a pretty basic file upload functionality.
 ![Submit page](https://passthehashbrowns.github.io/images/submit_page.png)
 
-On a previous page, the professor noted that only Haskell files would be accepted for upload, because of a lesson learned previously. We can try uploading other types of files, but they won't be accepted. We have a few routes that we can take from here. The immediate thought that comes to mind is to try and use Haskell to interact with system processes. I've written a short piece of code to do just that.
+On a previous page, the professor noted that only Haskell files would be accepted for upload, because of a lesson learned previously. We can try uploading other types of files, but they won't be accepted. We have a few routes that we can take from here. The immediate thought that comes to mind is to try and use Haskell to interact with system processes. I've written a short piece of code to do just that. This screenshot shows "ls -la" but in the actual submission I used wget to download a Python payload, and then run it in another upload.
 ![Haskell base code](https://passthehashbrowns.github.io/images/haskell_base_cmd.png)
 
 The Python payload that I used is just the PentestMonkey Python one-liner expanded because of my own neurosis.
