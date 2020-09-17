@@ -21,7 +21,7 @@
 title: PassTheHashBrowns
 email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
-  I like writing weird stuff in weird languages, hopefully some of it is useful.
+ Musings of a mediocre red teamer and worse programmer
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: passthehashbrwn
