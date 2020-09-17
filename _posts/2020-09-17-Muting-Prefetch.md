@@ -28,25 +28,25 @@ I'm going to attempt to closely detail my steps here. If you've read the blog po
 
 The first step is to identify what Prefetch is running under. A quick Google search for "prefetch service" or something along those lines will yield that it's running under a service called Sysmain. If we fire up Process Hacker and search for Sysmain, we'll get an svchost process. Then looking at the Svchost modules, we see sysmain.dll.
 
-![process_hacker_sysmain](./prefetch_blog/process_hacker_sysmain.png)
+![process_hacker_sysmain](./images/prefetch_blog/process_hacker_sysmain.png)
 
 Great. Next I fired up API Monitor to see if file names were being passed around anywhere that we could see to try and find an easy starting point. Running ipconfig and then doing a search for ipconfig in our recorded API calls will bring up a call to NtCreateFile.
 
-![apimonitor_ntcreatefile](./prefetch_blog/apimonitor_ipconfig.png)
+![apimonitor_ntcreatefile](./images/prefetch_blog/apimonitor_ipconfig.png)
 
 Next I opened up WinDBG and set a breakpoint on ntdll!NtCreateFile. We can assume that this is being called at some point, and by going up the chain of parent calling functions we'll find the API we need to hook.
 
-![windbg_ntcreatefile](./prefetch_blog/windbg_ntcreatefile.png)
+![windbg_ntcreatefile](./images/prefetch_blog/windbg_ntcreatefile.png)
 
 Admittedly, this is where I went down a looooooong rabbit hole. Initially, I figured it would be as simple as hooking NtCreateFile, reading the file name, and exiting if we so choose. I went ahead and implemented this, but the service would crash if an invalid handle was passed out of NtCreateFile. This is no good, so we have to go deeper. From context, it sounds like the first function we'll want to look at is PfXpContextGetTraces. This is probably the point where the service will break out into individual instances of PfXpProcessTrace.
 
 If you're terrible at reverse engineering, don't worry because I am too. Before I dug into this my experience with Ghidra consisted of solving some basic CrackMe's for CTFs. Start by grabbing a copy of Ghidra and load up sysmain.dll. When it asks about analysis hit no, then go to File > Download PDB, and then run the analysis. Searching the disassembly for PfXpContextGetTraces we're presented with this.
 
-![ghidra_pfxpcontextgettraces](./prefetch_blog/ghidra_pfxpcontextgettraces.png)
+![ghidra_pfxpcontextgettraces](./images/prefetch_blog/ghidra_pfxpcontextgettraces.png)
 
 From a rough glance at the decompilation, it does appear that PfXpContextGetTraces will run in a loop calling PfXpProcessTrace, presumably for every process in a queue. At this point I went down another rabbit hole and dug into PfXpProcessTrace and several other functions called in there. Each one that I tried still resulted in a file being created. I'll spare you the details, but I kept going up the chain and eventually stumbled on a function that does what we need, PfSvWriteBufferEx. This should've been a bit more obvious since it actually has lpAddress being provided as an argument, as well as what looks like a file protection option (x10000). But sometimes persistence and luck are all you need!
 
-![ghidra_pfsvwritebufferex](./prefetch_blog/ghidra_pfsvwritebufferex.png)
+![ghidra_pfsvwritebufferex](./images/prefetch_blog/ghidra_pfsvwritebufferex.png)
 
 This looks very promising. CreateFileW is being called, which is great because it's documented in the MSDN docs! A quick search for CreateFileW on MSDN will tell us that the first argument it takes is a file name, and in this case it's being passed the first parameter from our PfSvWriteBufferEx call. If you're not familiar with Prefetch, Prefetch files are named in the format Program-HashOfFilePath. This means that the name of our program will be in the filename, which is how we're going to identify API calls that we'd like to kill.
 
@@ -99,7 +99,7 @@ DWORD_PTR dwBase;
 
 This bit of code will search through process memory to obtain the base address of sysmain.dll, and then search memory for a specific pattern that corresponds to the address of PfSvWriteBufferEx. We can find that pattern by setting a breakpoint on sysmain!PfSvWriteBufferEx in WinDBG, and then looking at the assembly.
 
-![windbg_pfsvwritebufferex](./prefetch_blog/windbg_pfsvwritebufferex.png)
+![windbg_pfsvwritebufferex](./images/prefetch_blog/windbg_pfsvwritebufferex.png)
 
 And from there we can just pull out the bytes to search for. My pattern ended up being pretty long to avoid hooking the wrong function, as many functions in sysmain.dll start with the same bytes. Once we've obtained the address of that function, we'll save the original bytes. We'll put these back into memory later once it's time to unhook.
 
@@ -137,11 +137,11 @@ int WINAPI PfSvWriteBufferExHook(LPCWSTR param_1, LPCVOID param_2, DWORD param_3
 
 Next is our hook function. This will iterate through the list of items that we'd like to filter and check if the Prefetch file contains that substring. If it does, just exit. Otherwise, run our original function. Since it's checking for a substring, we could implement a blanket condition to ignore any files containing "Sharp".
 
-![windbg_success](./prefetch_blog/windbg_success.png)
+![windbg_success](./images/prefetch_blog/windbg_success.png)
 
 And...
 
-![prefetch_no_ipconfig](./prefetch_blog/prefetch_no_ipconfig.png)
+![prefetch_no_ipconfig](./images/prefetch_blog/prefetch_no_ipconfig.png)
 
 You'll have to take my word for it that I didn't just delete the ipconfig prefetch entry.
 
