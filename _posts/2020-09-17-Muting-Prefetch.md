@@ -3,7 +3,7 @@ layout: default
 title: "Muting Prefetch"
 permalink: /muting-prefetch/
 ---
-
+# Muting Prefetch
 This blog post will detail how I was introduced to basic reversing of the Windows API for hooking purposes, and how to apply that to mute Windows Prefetch.
 
 Recently, bats3c released a [blog post](https://labs.jumpsec.com/2020/09/04/pwning-windows-event-logging-with-yara-rules/) on how to pwn the Windows event log through API hooking. He did a great job of describing the process of reversing the event log service, and it got me wondering how to apply that to another service. I'm wrapping up my GCFA so I decided to target one of the topics from there: Windows Prefetch.
