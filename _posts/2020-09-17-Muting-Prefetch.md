@@ -4,7 +4,7 @@ title: "Muting Prefetch"
 permalink: /muting-prefetch/
 ---
 # Muting Prefetch
-This blog post will detail how I was introduced to basic reversing of the Windows API for hooking purposes, and how to apply that to mute Windows Prefetch.
+This blog post will detail how I was introduced to basic reversing of the Windows API for hooking purposes, and how to apply that to mute Windows Prefetch. You can find the accompanying tool [HERE](https://github.com/passthehashbrowns/PrefetchMute).
 
 Recently, bats3c released a [blog post](https://labs.jumpsec.com/2020/09/04/pwning-windows-event-logging-with-yara-rules/) on how to pwn the Windows event log through API hooking. He did a great job of describing the process of reversing the event log service, and it got me wondering how to apply that to another service. I'm wrapping up my GCFA so I decided to target one of the topics from there: Windows Prefetch.
 
@@ -24,7 +24,7 @@ Another method of preventing Prefetch analysis is deleting files, but as always 
 There are a few other methods of preventing Prefetch analysis, such as writing the Prefetch file to an alternate data stream, but this suffers from a similar problem as before. Defenders will be presented with empty prefetch files that still display the program name, and the empty file is a clear indicator of anti-forensics.
 
 ## And now the reversing
-I'm going to attempt to closely detail my steps here. If you've read the blog post from bats3c then this will look pretty familiar. If you don't care about the technical stuff you can find the tool HERE.
+I'm going to attempt to closely detail my steps here. If you've read the blog post from bats3c then this will look pretty familiar.
 
 The first step is to identify what Prefetch is running under. A quick Google search for "prefetch service" or something along those lines will yield that it's running under a service called Sysmain. If we fire up Process Hacker and search for Sysmain, we'll get an svchost process. Then looking at the Svchost modules, we see sysmain.dll.
 
