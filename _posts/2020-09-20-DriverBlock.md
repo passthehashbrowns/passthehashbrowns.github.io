@@ -32,7 +32,7 @@ I used a basic DLL injector and just did a search for the name of my driver load
 
 ![windbg_offset](/images/driverblock/windbg_createservicew_offset.png)
 
-Now that we know we're hitting the right function, we can write our hook. I'm not going to go into detail into the basic mechanics of this, if you want an explanation you can look at [bats3c's EvtMute blog](https://labs.jumpsec.com/2020/09/04/pwning-windows-event-logging-with-yara-rules/) or my [Prefetch mute blog](https://passthehashbrowns.github.io/muting-prefetch/) (which uses the same code).
+Now that we know we're hitting the right function, we can write our hook. I'm not going to go into detail into the basic mechanics of this, but if you want an explanation you can look at [bats3c's EvtMute blog](https://labs.jumpsec.com/2020/09/04/pwning-windows-event-logging-with-yara-rules/), my [Prefetch mute blog](https://passthehashbrowns.github.io/muting-prefetch/) (which uses the same code), or here's a post [from xpn](https://blog.xpnsec.com/azuread-connect-for-redteam/).
 ```cpp
 VOID WINAPI CreateServiceHook(SC_HANDLE hSCManager,LPCWSTR lpServiceName,LPCWSTR lpDisplayName,DWORD dwDesiredAccess,DWORD dwServiceType,DWORD dwStartType,DWORD dwErrorControl,LPCWSTR lpBinaryPathName,LPCWSTR lpLoadOrderGroup,LPDWORD lpdwTagId,LPCWSTR lpDependencies,LPCWSTR lpServiceStartName,LPCWSTR lpPassword) {
 	char driverName[1024];
