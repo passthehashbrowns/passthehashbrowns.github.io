@@ -20,19 +20,10 @@ To confirm, I grabbed the `install_driver` and `uninstall_driver` functions from
 
 Sweet. Now let's see what happens when we hook it.
 
-The first thing we'll need for that is the bytes to search for to identify the `CreateService` address in memory. This is easy to find by firing up WinDBG, attaching it to our loader program, and then setting a breakpoint on the `CreateService` function. The MSDN docs state that `CreateService` is located in advapi32.dll, but API Monitor correctly reports that it's from sechost.dll. To confirm this, I set a wildcard breakpoint in WinDBG: `bm advapi32!*Create*`
+I'm not going to go into detail into the basic mechanics of this, but if you want an explanation you can look at [bats3c's EvtMute blog](https://labs.jumpsec.com/2020/09/04/pwning-windows-event-logging-with-yara-rules/), my [Prefetch mute blog](https://passthehashbrowns.github.io/muting-prefetch/) (which uses the same code), or here's a post [from xpn](https://blog.xpnsec.com/azuread-connect-for-redteam/).
 
-This will resolve and set a break on anything with Create in it. If we allow our program to continue, a breakpoint is hit for `CreateServiceWStub`. This probably means that advapi32.dll is using a stub to redirect the program flow to the correct function, which we can confirm by hitting "Step Into" a few times and seeing that the next function called is `sechost!CreateServiceW`.
+The following is a simple proof of concept check for a hardcoded kernel driver name. If the string is one we want to block, simply return. Otherwise we'll restore the function, create the service, and rehook.
 
-![windbg](/images/driverblock/win_dbg_createservicew.png)
-
-Great, now we know what we need to grab. Doing a quick `uf` on the first memory address of `CreateServiceW` will give us the bytes. We need to grab a lot of them, as `CreateServiceA` and `CreateServiceW` both start with the same bytes but we need to make sure we're hitting `CreateServiceW`.
-
-I used a basic DLL injector and just did a search for the name of my driver loader program at this stage. Using windbg we can confirm that we've found the correct function. If this doesn't work then we probably need to grab more bytes from CreateServiceW, as the first time I did this it grabbed CreateServiceA.
-
-![windbg_offset](/images/driverblock/windbg_createservicew_offset.png)
-
-Now that we know we're hitting the right function, we can write our hook. I'm not going to go into detail into the basic mechanics of this, but if you want an explanation you can look at [bats3c's EvtMute blog](https://labs.jumpsec.com/2020/09/04/pwning-windows-event-logging-with-yara-rules/), my [Prefetch mute blog](https://passthehashbrowns.github.io/muting-prefetch/) (which uses the same code), or here's a post [from xpn](https://blog.xpnsec.com/azuread-connect-for-redteam/).
 ```cpp
 VOID WINAPI CreateServiceHook(SC_HANDLE hSCManager,LPCWSTR lpServiceName,LPCWSTR lpDisplayName,DWORD dwDesiredAccess,DWORD dwServiceType,DWORD dwStartType,DWORD dwErrorControl,LPCWSTR lpBinaryPathName,LPCWSTR lpLoadOrderGroup,LPDWORD lpdwTagId,LPCWSTR lpDependencies,LPCWSTR lpServiceStartName,LPCWSTR lpPassword) {
 	char driverName[1024];
@@ -49,7 +40,7 @@ VOID WINAPI CreateServiceHook(SC_HANDLE hSCManager,LPCWSTR lpServiceName,LPCWSTR
 }
 ```
 
-The above is a simple proof of concept check for a hardcoded kernel driver name. If the string is one we want to block, simply return. Otherwise we'll restore the function, create the service, and rehook.
+
 
 Then we can run our program.
 
