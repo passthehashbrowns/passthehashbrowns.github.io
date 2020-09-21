@@ -4,3 +4,6 @@
 
 layout: default
 ---
+## Posts
+
+[Muting Prefetch](https://passthehashbrowns.github.io/muting-prefetch/)
