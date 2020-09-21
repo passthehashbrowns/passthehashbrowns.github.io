@@ -6,6 +6,8 @@ permalink: /blocking-remote-memory-forensics/
 
 # Blocking Remote Memory Forensics With API Hooking
 
+You can find all of the accompanying source code for this blog post [here](https://github.com/passthehashbrowns/DriverBlock).
+
 I'm wrapping up studying for my GCFA, and one of focal points of that course is memory forensics. Specifically, remote memory forensics at scale. This raises the question of how to capture memory images remotely, without plugging in to the hardware. More importantly, how can an attacker detect and subvert this memory capture?
 
 I pulled up the documentation for [Rekall](https://github.com/google/rekall) to dig in. Rekall is a free, open source forensics toolkit from Google. Searching for "Rekall memory capture" yields a few results, such as this [SANS DFIR cheatsheet](https://digital-forensics.sans.org/media/rekall-memory-forensics-cheatsheet.pdf). In the top left corner is a blurb on creating a memory image, using winpmem. Searching for winpmem in the [Rekall docs](https://rekall.readthedocs.io/en/gh-pages/Tools/pmem.html) will bring up a helpful description of how winpmem does memory captures, which is by loading a kernel driver.
