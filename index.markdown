@@ -13,5 +13,7 @@ This is where I post the random stuff that I research. None of it is particularl
 # Posts
 
 [Blocking remote memory forensics through API hooking](https://passthehashbrowns.github.io/blocking-remote-memory-forensics)
+This post walks through how kernel driver loads, often used by forensics tools for memory captures, can be blocked from loading by userland processes and kernel drivers.
 
 [Muting Prefetch](https://passthehashbrowns.github.io/muting-prefetch/)
+This post discusses using API hooking to prevent the Windows Prefetch service from writing files to disk, which can later be used by forensic investigators.
