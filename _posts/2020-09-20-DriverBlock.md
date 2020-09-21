@@ -120,7 +120,7 @@ When we load up the driver with DebugView running, we'll see our process creatio
 
 Now we could implement the API hooking at the kernel level, but since kernel drivers don't have access to the same libraries this tends to be very difficult. Hooking the SSDT is one option, but this has become very hard due to all of the integrity checks implemented by Microsoft. There are also a few proof of concept projects out there that implement DLL injection from a driver, but I decided to just have the driver send information to a userland process that will then handle the injection.
 
-If like me you've never worked with kernel drivers, there a few ways for a driver to communicate with userland processes. Writing to a file, registry keys, and named pipe are all options. I decided to go with a device link, primarily because that was already in the ired.team code so the framework was laid out.
+If like me you've never worked with kernel drivers, there a few ways for a driver to communicate with userland processes. Writing to a file, registry keys, and named pipe are all options. I decided to go with a named pipe, primarily because that was already in the ired.team code so the framework was laid out.
 
 ```cpp
 TCHAR messageFromKernel[200];
@@ -128,16 +128,16 @@ size_t const cchDest = 200;
 LPCTSTR pszFormat = TEXT("%d");
 LPCTSTR existingFormat = TEXT("%s,%d");
 if (strlen(messageFromKernel) > 0)
-		{
-			RtlStringCchPrintfA(messageFromKernel, cchDest, existingFormat, messageFromKernel, pid);
-		}
-		else
-		{
-			RtlStringCchPrintfA(messageFromKernel, cchDest, pszFormat, pid);
-		}
+{
+	RtlStringCchPrintfA(messageFromKernel, cchDest, existingFormat, messageFromKernel, pid);
+}
+else
+{
+	RtlStringCchPrintfA(messageFromKernel, cchDest, pszFormat, pid);
+}
 ```
 
-This is a few lines that will handle sending the PIDs over to our client program. We can implement a check above this to filter for process name, or we can just inject into every process. Keep in mind that the latter option is very load, but since we're loading a kerner driver we could tamper with logging and such.
+This is a few lines that will handle sending the PIDs over to our client program. We can implement a check above this to filter for process name, or we can just inject into every process. Keep in mind that the latter option is very loud, but since we're loading a kerner driver we could tamper with logging and such.
 
 The next issue that we have to deal with is the same as with the user mode process: We need to find a way to inject our DLL into the process before the driver is loaded. I'll add a disclaimer here: my solution is kinda hacky and I'm sure there's a better way to do this.
 
