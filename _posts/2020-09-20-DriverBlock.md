@@ -152,50 +152,43 @@ KeDelayExecutionThread(KernelMode, FALSE, &Delay);
 Below is the user mode code that I used. It opens a handle to the IOCTL established by the kernel driver and polls to see if there are any new processes to inject into. This code will poll 10 times a second, but again this can be changed to adjust how long the driver will suspend processes for.
 
 ```cpp
-#include <Windows.h>
-#include <stdio.h>
-#include <sstream>
-#include <vector>
-using namespace std;
-// Device type
 #define SIOCTL_TYPE 40000
+
 // The IOCTL function codes from 0x800 to 0xFFF are for customer use.
-#define IOCTL_HELLO
+#define IOCTL_HELLO\
  CTL_CODE( SIOCTL_TYPE, 0x800, METHOD_BUFFERED, FILE_READ_DATA|FILE_WRITE_DATA)
 vector<string> __cdecl GetProcesses(){
-	HANDLE hDevice;
-	const char* welcome = "Give me processes";
-	DWORD dwBytesRead = 0;
-	char ReadBuffer[50] = { 0 };
-	std::vector<string> vect;
-	hDevice = CreateFile(L"\\\\.\\DriverBlockerLink", GENERIC_WRITE | GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-	DeviceIoControl(hDevice, IOCTL_HELLO, (LPVOID)welcome, strlen(welcome), ReadBuffer, sizeof(ReadBuffer), &dwBytesRead, NULL);
-	if (strlen(ReadBuffer) != 0){
-		printf("Got message: %s\n", ReadBuffer);
-	}
-	CloseHandle(hDevice);
-	std::stringstream ss(ReadBuffer);
-	while (ss.good()){
-		string substr;
-		std::getline(ss, substr, ',');
-		vect.push_back(substr);
-	}
-	return vect;
+    HANDLE hDevice;
+    const char* welcome = "Give me processes";
+    DWORD dwBytesRead = 0;
+    char ReadBuffer[50] = { 0 };
+    std::vector<string> vect;
+    while (vect.size() == 0)
+    {
+        hDevice = CreateFile(L"\\\\.\\DriverBlockerLink", GENERIC_WRITE | GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+        DeviceIoControl(hDevice, IOCTL_HELLO, (LPVOID)welcome, strlen(welcome), ReadBuffer, sizeof(ReadBuffer), &dwBytesRead, NULL);
+        CloseHandle(hDevice);
+        if (strlen(ReadBuffer) != 0) {
+            printf("Got message: %s\n", ReadBuffer);
+            vect.push_back(ReadBuffer);
+        }
+    }
+    return vect;
 }
-VOID inject(int pid){
-	//add your injector here, example: https://www.ired.team/offensive-security/code-injection-process-injection/dll-injection
+int inject(int pid)
+{
+ //insert your injection method, here's an example: https://www.ired.team/offensive-security/code-injection-process-injection/dll-injection
 }
+
 int main(int argc, char* argv[]) {
-	while (true){
-		vector<string> processes = GetProcesses();
-		for (int i = 0; i < processes.size(); i++){
-			if (processes[i].length() > 0){
-				printf("Got target process: %s\n", processes[i]);
-				inject(stoi(processes[i]));
-			}
-		}
-		Sleep(100);
-	}
+    while (true) {
+        vector<string> processes = GetProcesses();
+        for (int i = 0; i < processes.size(); i++)
+        {
+            inject(stoi(processes[i]));
+       }
+        Sleep(1000);
+    }
 }
 ```
 
