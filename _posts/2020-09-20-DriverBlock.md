@@ -1,10 +1,10 @@
 ---
 layout: default
-title: "Blocking Remote Memory Forensics With API Hooking"
+title: "Blocking Remote Memory Forensics Like An EDR"
 permalink: /blocking-remote-memory-forensics/
 ---
 
-# Blocking Remote Memory Forensics With API Hooking
+# Blocking Remote Memory Forensics Like An EDR
 
 You can find all of the accompanying source code for this blog post [here](https://github.com/passthehashbrowns/DriverBlock).
 
