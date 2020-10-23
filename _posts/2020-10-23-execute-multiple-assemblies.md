@@ -1,3 +1,9 @@
+---
+layout: default
+title: "Executing multiple .NET assemblies from one CLR load"
+permalink: /execute-multiple-assemblies
+---
+
 # execute-multiple-assemblies
 This blog post will detail how I went about writing a standalone version of Cobalt Strike's execute-assembly functionality that keeps a process alive to execute multiple .NET assemblies from one initial CLR load.
 
