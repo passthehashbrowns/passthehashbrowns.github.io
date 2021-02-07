@@ -68,11 +68,11 @@ For many operations, such as running a command on a VM or getting the contents o
 To recreate this I created a keyvault with 101 secrets in it.
 
 ```
-PS C:\> $results = (Invoke-WebRequest -Uri (-join ('https://passthehashbrowns-kv.vault.azure.net/secrets?&api-version=7.1')) -Verbose:$false -Method GET -Headers @{ Authorization ="Bearer $vaultToken"} -UseBasicParsing).Content | ConvertFrom-Json
-{"value":[{"id":"https://passthehashbrowns-kv.vault.azure.net/secrets/Secret0","attributes":{"enabled":true,"created":161
+PS C:\> $results = (Invoke-WebRequest -Uri (-join ('https://example-kv.vault.azure.net/secrets?&api-version=7.1')) -Verbose:$false -Method GET -Headers @{ Authorization ="Bearer $vaultToken"} -UseBasicParsing).Content | ConvertFrom-Json
+{"value":[{"id":"https://example-kv.vault.azure.net/secrets/Secret0","attributes":{"enabled":true,"created":161
 2487452,"updated":1612487452,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}
 ...TRUNCATED...
-],"nextLink":"https://passthehashbrowns-kv.vault.azure.net:443/secrets?api-version=7.1&$skiptoken
+],"nextLink":"https://example-kv.vault.azure.net:443/secrets?api-version=7.1&$skiptoken
 =eyJOZXh0TWFya2VyIjoiMiE4MCFNREF3TURFMUlYTmxZM0psZEM5VFJVTlNSVlF6TUNFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9U
 azVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ"}
 ```
@@ -88,7 +88,7 @@ while($nextLink){#make another web request}
 Eventually you'll end up with a request with a null nextLink, meaning we've fetched all of the resources.
 
 ```
-{"value":[{"id":"https://passthehashbrowns-kv.vault.azure.net/secrets/Secret99","attributes":{"enabled":true,"created":16
+{"value":[{"id":"https://example-kv.vault.azure.net/secrets/Secret99","attributes":{"enabled":true,"created":16
 12487630,"updated":1612487630,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}],"nextLink":null}
 ```
 
