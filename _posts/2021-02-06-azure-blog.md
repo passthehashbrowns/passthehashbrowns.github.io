@@ -1,3 +1,9 @@
+---
+layout: default
+title: "Azure blog"
+permalink: /azure-blog-temp
+---
+
 ### Introduction
 One part of Azure security that I haven’t seen getting a lot of attention is the abuse of Managed Identities. In this post I’d like to briefly discuss some development I’ve done with Managed Identities and how we can further expand this.
 
