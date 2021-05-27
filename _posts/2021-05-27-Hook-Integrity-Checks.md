@@ -50,6 +50,7 @@ typedef NTSTATUS(NTAPI* _NtOpenProcess) (
     );
 
 void main(){
+  Sleep(1000)
   HANDLE hDll = LoadLibraryA("C:\\Windows\\System32\\ntdll.dll");
   _NtOpenProcess NtOpenProcess = (_NtOpenProcess)GetProcAddress(hDll, "NtOpenProcess");
     POBJECT_ATTRIBUTES pAttributes = NULL;
@@ -59,7 +60,7 @@ void main(){
 
 ```
 
-The above C defines a function prototype for NtOpenProcess, gets a handle to NTDLL, resolves the address of NtOpenProcess and casts it with our prototype, and then calls it. If we compile and start the executable with Frida, we should see that it does indeed hook NtOpenProcess.
+The above C defines a function prototype for NtOpenProcess, gets a handle to NTDLL, resolves the address of NtOpenProcess and casts it with our prototype, and then calls it. It will sleep briefly at the beginning to ensure that Frida has time to catch up. If we compile and start the executable with Frida, we should see that it does indeed hook NtOpenProcess.
 
 ### Unhooking NTDLL
 
@@ -106,7 +107,7 @@ Now that we know our function is hooked, we can bypass it. We can do so using so
 
 void main(){
 
-
+  Sleep(1000)
 
   HANDLE hDll = LoadLibraryA("C:\\Windows\\System32\\ntdll.dll");
   _NtOpenProcess NtOpenProcess = (_NtOpenProcess)GetProcAddress(hDll, "NtOpenProcess");
@@ -277,3 +278,13 @@ And we do only see two NtOpenProcess calls. Since we quickly replaced the fresh 
 ## Conclusion
 
 As mentioned before, this is certainly not a great way of ensuring that hooks are not tampered with. Aside from the fact that there are other methods to bypass hooking, like direct syscalls, real EDR products have to balance performance overheads, false positive rates, alerting, etc. So it is a much more complex problem than just throwing some string comparisons in an infinite loop. This is also a very loud method, since we have to unhook whenever we want to call malicious code again. That said, I think this is a cool little experiment to get some insight into potential pitfalls with our tooling.
+
+You can find my POC scripts [here](https://github.com/passthehashbrowns/hook-integrity-checks).
+
+### References
+[Detecting DLL Unhooking - Makosec](https://makosecblog.com/malware-dev/detecting-dll-unhooking/)
+
+[EDR How Hackers Have Evolved - Optiv](https://www.optiv.com/insights/source-zero/blog/endpoint-detection-and-response-how-hackers-have-evolved)
+
+[Full DLL Unhooking with C++ - ired.team](https://www.ired.team/offensive-security/defense-evasion/how-to-unhook-a-dll-using-c++)
+
