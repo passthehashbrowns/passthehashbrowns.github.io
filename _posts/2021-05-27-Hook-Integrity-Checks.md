@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Checking NTDLL hook integrity with Frida"
+permalink: /hook-integrity-checks
+---
+
+
 ## Introduction
 
 One of the most ubiquitous evasion techniques used by red teamers right now is DLL unhooking. Many EDR products place userland hooks into NTDLL by overwriting the original function with a JMP instruction to their own function, where they can check for malicious activity and make decisions on alerting/blocking. One of the more common techniques for undoing this is by reading a clean copy of NTDLL from disk and overwriting the hooked version in memory.
