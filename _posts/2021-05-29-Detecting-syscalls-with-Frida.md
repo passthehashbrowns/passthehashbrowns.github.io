@@ -1,3 +1,9 @@
+---
+layout: default
+title: Detecting Direct Syscalls with Frida
+permalink: /detecting-direct-syscalls-with-frida
+---
+
 # Detecting direct syscalls with Frida
 
 In my last post I talked about checking the integrity of hooks placed on NTDLL with Frida. In that post I mentioned how utilizing direct syscalls is a good way of avoiding any hooks placed on NTDLL. After that I was curious if there was a good way to detect the use of direct syscalls, so I spent some more time hacking on Frida. 
@@ -440,3 +446,10 @@ So naturally, running any sort of tracer is going to create overhead in the targ
 ## Conclusion
 
 Hopefully you learned something new from this post. To reiterate I don't think this is a novel technique or mindblowing by any means, but I think one of the best ways to learn about our tooling is by taking it apart and writing detections for it. I've had more than one instance where a client asked me how they could detect one of the techniques I used and I had to get back to them, so some work ahead of time can be a boon!
+
+## References
+[Combining Direct System Calls and sRDI - Outflank](https://outflank.nl/blog/2019/06/19/red-team-tactics-combining-direct-system-calls-and-srdi-to-bypass-av-edr/)
+[Retrieving ntdll Syscall Stubs from Disk at Run-time - ired.team](https://www.ired.team/offensive-security/defense-evasion/retrieving-ntdll-syscall-stubs-at-run-time?q=riv)
+[Hell's Gate - Am0nsec](https://github.com/am0nsec/HellsGate)
+[Bypassing user mode hooks and direct invocation of syscalls - MDSec](https://www.mdsec.co.uk/2020/12/bypassing-user-mode-hooks-and-direct-invocation-of-system-calls-for-red-teams/)
+[OutflankNl - Dumpert](https://github.com/outflanknl/Dumpert)
