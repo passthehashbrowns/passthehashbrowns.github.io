@@ -449,7 +449,11 @@ Hopefully you learned something new from this post. To reiterate I don't think t
 
 ## References
 [Combining Direct System Calls and sRDI - Outflank](https://outflank.nl/blog/2019/06/19/red-team-tactics-combining-direct-system-calls-and-srdi-to-bypass-av-edr/)
+
 [Retrieving ntdll Syscall Stubs from Disk at Run-time - ired.team](https://www.ired.team/offensive-security/defense-evasion/retrieving-ntdll-syscall-stubs-at-run-time?q=riv)
+
 [Hell's Gate - Am0nsec](https://github.com/am0nsec/HellsGate)
+
 [Bypassing user mode hooks and direct invocation of syscalls - MDSec](https://www.mdsec.co.uk/2020/12/bypassing-user-mode-hooks-and-direct-invocation-of-system-calls-for-red-teams/)
+
 [OutflankNl - Dumpert](https://github.com/outflanknl/Dumpert)
