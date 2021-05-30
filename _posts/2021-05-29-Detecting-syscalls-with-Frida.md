@@ -16,6 +16,8 @@ In this post we'll look at:
 
 I'd also like to state my thesis at the top here to potentially save people some time. This probably isn't novel and it's a pretty straightforward detection, you could do this exact same thing with really any debugger or tracer. The way I'm trying to detect the syscalls is by looking at every executed instruction, and if it's a syscall then I check if it is within the bounds of the loaded NTDLL. If it is then it's a normal syscall, if it's not then it may be suspicious.
 
+Note: After posting this I found this blog from [winternl](https://winternl.com/detecting-manual-syscalls-from-user-mode/) which describes using the same detection parameters but with the Nirvana engine from Microsoft.
+
 ## What are direct syscalls?
 
 There's several great resources that explain this concept much better than I can, which I'll link here.
