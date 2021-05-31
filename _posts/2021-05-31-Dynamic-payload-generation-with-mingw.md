@@ -1,3 +1,9 @@
+---
+layout: default
+title: "Dynamic payload generation with mingw"
+permalink: /dynamic-payload-generation-with-mingw
+---
+
 # Dynamic payload generation with mingw
 
 In my spare time I've been developing a C2 framework as a way to become more familiar with the workings of a tool that I've spent a lot of time using, but didn't fully understand. After getting my teamserver and a prototyped implant up and running, I began working on some of the more complicated features of a C2 framework. One area that I had trouble with was getting dynamic payload generation up and running, as I wasn't able to find many blogs on the subject. There are some cool tools like MDSec's [SharpShooter](https://github.com/mdsecactivebreach/SharpShooter) that generate .NET payloads, but nothing for generating payloads written in C/C++ except for MSFVenom.
