@@ -12,7 +12,7 @@ This is where I post the random stuff that I research. None of it is particularl
 
 # Posts
 
-[Dynamic payload compilation with mingw](https://passthehashbrowns.github.io/dynamic-payload-compilation-with-mingw)
+[Dynamic payload compilation with mingw](https://passthehashbrowns.github.io/dynamic-payload-generation-with-mingw)
 This post looks at creating a basic server, implant, and shellcode stager that we will compile on Linux using mingw to target Windows. 
 
 [Detecting direct syscalls with Frida](https://passthehashbrowns.github.io/detecting-direct-syscalls-with-frida)
