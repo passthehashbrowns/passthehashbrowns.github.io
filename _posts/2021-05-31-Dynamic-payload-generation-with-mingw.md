@@ -130,10 +130,6 @@ For the stager, we are going to do the same thing as before (fetching a web reso
 
 I will not attempt to offer a complete tutorial on writing PIC, so I would REALLY recommend you read one of the following blog posts: Matt Graeber's ["Writing Optimized Windows Shellcode In C"](https://web.archive.org/web/20201202085848/http://www.exploit-monday.com/2013/08/writing-optimized-windows-shellcode-in-c.html) (Archived) or hasherezade's [From a C project to assembly to shellcode](https://vxug.fakedoma.in/papers/VXUG/Exclusive/FromaCprojectthroughassemblytoshellcodeHasherezade.pdf). Reading and finally understanding these two posts was one of those moments where a lot of very important concepts began to click together for me.
 
-I've placed the source code into a dropdown to avoid making the total page length super long.
-
-- Click here to expand the full stager code
-
     ```c
     #pragma once
     #include <windows.h>
