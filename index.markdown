@@ -12,6 +12,9 @@ This is where I post the random stuff that I research. None of it is particularl
 
 # Posts
 
+[Hiding your syscalls](https://passthehashbrowns.github.io/hiding-your-syscalls)
+This post looks at bypassing the direct syscall detections that I wrote in a previous post. 
+
 [Dynamic payload compilation with mingw](https://passthehashbrowns.github.io/dynamic-payload-generation-with-mingw)
 This post looks at creating a basic server, implant, and shellcode stager that we will compile on Linux using mingw to target Windows. 
 
