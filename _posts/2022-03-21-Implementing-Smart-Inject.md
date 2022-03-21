@@ -1,3 +1,9 @@
+---
+layout: default
+title: "Implementing Smart Inject"
+permalink: /implementing-smart-inject
+---
+
 # Implementing Smart Inject
 
 Many of Cobalt Strike’s features like execute-assembly, PPID spoofing, or BlockDLL, have been researched and documented so that they can be used in payloads outside of Cobalt Strike. One feature that I have not seen documented is the “Smart Inject” setting in Malleable C2. In this blog we’ll walk through implementing this feature.
