@@ -12,6 +12,9 @@ This is where I post the random stuff that I research. None of it is particularl
 
 # Posts
 
+[Implementing Smart Inject](https://passthehashbrowns.github.io/implementing-smart-inject)
+This post looks at implementing Cobalt Strike's "Smart Inject" feature to avoid shellcode-like behavior in post-exploitation processes.
+
 [Hiding your syscalls](https://passthehashbrowns.github.io/hiding-your-syscalls)
 This post looks at bypassing the direct syscall detections that I wrote in a previous post. 
 
