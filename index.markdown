@@ -12,6 +12,9 @@ This is where I post the random stuff that I research. None of it is particularl
 
 # Posts
 
+[Cobalt Strike Aliases - Kinda](https://github.com/passthehashbrowns/passthehashbrowns.github.io/blob/master/_posts/2022-06-16-Cobalt-Strike-Aliases-Kinda.md)
+A short post looking at some weird Aggressor logic I wrote for handling Cobalt Strike aliases with Sleep subroutines/functions.
+
 [Implementing Smart Inject](https://passthehashbrowns.github.io/implementing-smart-inject)
 This post looks at implementing Cobalt Strike's "Smart Inject" feature to avoid shellcode-like behavior in post-exploitation processes.
 
